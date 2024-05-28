@@ -1,5 +1,4 @@
 import ChatHeader from "@/components/ChatHeader";
-import { SendMessages } from "@/components/send_messages/SendMessages";
 import InitUser from "@/helpers/initUser";
 import { supabaseServer } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
@@ -9,6 +8,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import SideMenu from "@/components/SideMenu";
+import ChatZone from "@/components/ChatZone";
 
 export default async function Home() {
   const supabase = supabaseServer();
@@ -34,8 +34,8 @@ export default async function Home() {
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel defaultSize={75} minSize={70}>
-              <div className="flex h-full items-center justify-center p-6">
-                <span className="font-semibold">Content</span>
+              <div className="h-full pl-5">
+                <ChatZone />
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>

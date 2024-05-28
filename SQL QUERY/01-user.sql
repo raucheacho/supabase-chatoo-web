@@ -1,10 +1,10 @@
 -- Créer la table users 
-CREATE TABLE public.users (
+create table public.users (
     id uuid not null references auth.users on delete cascade,
-    display_name TEXT,
-    avatar_url TEXT,
-    created_at TIMESTAMPTZ DEFAULT now(),
-     primary key (id)
+    display_name text,
+    avatar_url text,
+    created_at timestamptz default now(),
+    primary key (id)
 );
 
 -- Fonction pour inserer nouveau users après login
