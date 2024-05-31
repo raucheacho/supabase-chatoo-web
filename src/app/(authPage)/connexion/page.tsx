@@ -1,8 +1,8 @@
 import { supabaseServer } from "@/lib/supabase/server";
-import Formulaire from "@/components/Formulaire";
+import Formulaire from "@/components/authentication/Formulaire";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import GithubBtn from "@/components/GithubBtn";
+import GithubBtn from "@/components/authentication/GithubBtn";
 import { Separator } from "@/components/ui/separator";
 
 async function LoginPage() {

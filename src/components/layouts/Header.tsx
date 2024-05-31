@@ -1,16 +1,11 @@
 "use client";
 import Link from "next/link";
-import { ModeToggle } from "./ui/ModeToggle";
+import { ModeToggle } from "@/components/ui/ModeToggle";
 import { userState } from "@/lib/store/userState";
-import { UserAcount } from "./UserAcount";
-import { useEffect } from "react";
+import { UserAcount } from "@/components/users/UserAcount";
 
 const Header = () => {
   const { user } = userState();
-  // console.log(user);
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -34,16 +29,7 @@ const Header = () => {
           </Link>
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
             <nav className="flex items-center w-full  justify-end space-x-2">
-              {user && (
-                <UserAcount
-                  user={{
-                    avatar_url: null,
-                    created_at: null,
-                    display_name: null,
-                    id: "",
-                  }}
-                />
-              )}
+              {user && <UserAcount user={user} />}
               <a
                 target="_blank"
                 rel="noreferrer"

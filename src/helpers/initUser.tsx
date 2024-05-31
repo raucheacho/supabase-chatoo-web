@@ -1,12 +1,12 @@
 "use client";
-import { User } from "@supabase/supabase-js";
 import { useEffect } from "react";
 import { userState } from "@/lib/store/userState";
+import { UsersType } from "@/lib/types/collections";
 
-export default function InitUser({ user }: { user: User | null }) {
+export default function InitUser({ user }: { user: UsersType | null }) {
   const { setUserState } = userState();
   useEffect(() => {
-    setUserState(user as User);
+    if (user) setUserState(user);
   }, [setUserState, user]);
 
   return null;

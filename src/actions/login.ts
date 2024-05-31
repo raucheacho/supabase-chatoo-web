@@ -17,8 +17,7 @@ export const login = sefeAction(
       password,
     };
 
-    const { data, error } = await supabase.auth.signInWithPassword(loginInfo);
-
+    const { error } = await supabase.auth.signInWithPassword(loginInfo);
     if (error) return { message: error.message };
     revalidatePath("/", "layout");
     redirect("/");

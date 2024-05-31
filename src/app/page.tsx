@@ -1,4 +1,3 @@
-import ChatHeader from "@/components/ChatHeader";
 import InitUser from "@/helpers/initUser";
 import { supabaseServer } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
@@ -7,8 +6,10 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import SideMenu from "@/components/SideMenu";
-import ChatZone from "@/components/ChatZone";
+import SideMenu from "@/components/layouts/SideMenu";
+import ChatZone from "@/components/chats/ChatZone";
+import { ModifierMessage } from "@/components/chats/actions/ModifierMessage";
+import { SupprimerMessage } from "@/components/chats/actions/SupprimerMessage";
 
 export default async function Home() {
   const supabase = supabaseServer();
@@ -21,26 +22,27 @@ export default async function Home() {
   return (
     <>
       <InitUser user={data.user} />
-      <main className="container max-w-5xl h-screen mx-auto md:py-10">
-        <div className="h-[80%]">
-          <ResizablePanelGroup
-            direction="horizontal"
-            className="min-h-[200px] max-w-full"
-          >
-            <ResizablePanel defaultSize={25} minSize={10}>
-              <div className="flex h-full items-center justify-center p-6">
-                <SideMenu />
-              </div>
-            </ResizablePanel>
-            <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={75} minSize={70}>
-              <div className="h-full pl-5">
-                <ChatZone />
-              </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </div>
-      </main>
+
+      <div className="h-full">
+        <ResizablePanelGroup
+          direction="horizontal"
+          className="max-h-[650px] max-w-full"
+        >
+          <ResizablePanel defaultSize={25} minSize={10}>
+            <div className="h-full">
+              <SideMenu />
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={75} minSize={70}>
+            <div className="h-full pl-0">
+              <ChatZone />
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+        <ModifierMessage />
+        <SupprimerMessage />
+      </div>
     </>
   );
 }

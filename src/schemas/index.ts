@@ -20,4 +20,8 @@ export const SignUpFormSchema = z.object({
   }),
 });
 
+export const MessageSchema = z.object({
+  textMessage: z.string().min(1),
+});
+
 export const LogoutSchema = z.object({});

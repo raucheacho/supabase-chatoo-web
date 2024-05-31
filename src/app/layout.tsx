@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/partials/theme-provider";
+import Header from "@/components/layouts/Header";
+import Footer from "@/components/layouts/Footer";
 import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
@@ -33,7 +33,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main>{children}</main>
+          <main className="container max-w-5xl mx-auto md:py-10">
+            {children}
+          </main>
           <Toaster position="top-left" />
           <Footer />
         </ThemeProvider>

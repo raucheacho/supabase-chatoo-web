@@ -29,7 +29,7 @@ export const signup = sefeAction(
     };
 
     const { error } = await supabase.auth.signUp(data);
-
+    if (!error) return { message: "Inscription réussie" };
     if (error) return { message: error.message };
 
     revalidatePath("/", "layout");

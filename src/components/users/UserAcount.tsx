@@ -13,18 +13,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { UserAvatar } from "./UserAvatar";
-import { UsersType } from "@/lib/types/collections";
+
 import { handleLogout } from "@/actions/logout";
 import Link from "next/link";
 import { useAction } from "next-safe-action/hooks";
 import { userState } from "@/lib/store/userState";
 import { toast } from "sonner";
+import { User as TypeUser } from "@supabase/supabase-js";
 
 type UserAcount = {
-  user: UsersType;
+  user: TypeUser;
 };
 
-export function UserAcount({}: UserAcount) {
+export function UserAcount({ user }: UserAcount) {
+  // console.log("account:", user);
+
   const { clearUser } = userState();
   const { execute, status, result } = useAction(handleLogout, {
     onSuccess: (data) => {
@@ -40,17 +43,16 @@ export function UserAcount({}: UserAcount) {
       console.log(error);
     },
   });
-  console.log("test: ", status);
   const handleLogoutFunc = () => {
     execute({});
   };
-  // console.log("result :", result);
+  // console.log("result :", user);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="p-0 rounded-full" variant="outline">
-          <UserAvatar avatar="" />
+          <UserAvatar avatar={user.user_metadata.avatar_url as string} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

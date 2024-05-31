@@ -2,10 +2,10 @@ import React from "react";
 import { signup } from "../../../actions/signup";
 import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase/server";
-import Formulaire from "@/components/Formulaire";
+import Formulaire from "@/components/authentication/Formulaire";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import GithubBtn from "@/components/GithubBtn";
+import GithubBtn from "@/components/authentication/GithubBtn";
 
 async function SignUpPage() {
   const supabase = supabaseServer();

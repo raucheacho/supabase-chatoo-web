@@ -29,5 +29,12 @@ create trigger trigger_add_user_on_signup
   after insert on auth.users
   for each row execute function public.fn_add_user_on_signup();
 
+-- activer les policies
+alter table "users" enable row level security;
 
+-- peuvent lire : les users authentifiés
+create policy select_users_policy on public.users
+for select
+to authenticated
+using (true);
 

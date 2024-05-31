@@ -34,6 +34,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      messages: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          is_edit: boolean
+          send_by: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_edit?: boolean
+          send_by?: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_edit?: boolean
+          send_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_send_by_fkey"
+            columns: ["send_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string | null

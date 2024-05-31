@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { User } from "@supabase/supabase-js";
+import { UsersType } from "../types/collections";
 
 interface UserState {
-  user: null | User;
-  setUserState: (user: User) => void;
+  user: null | UsersType;
+  setUserState: (user: UsersType) => void;
   clearUser: () => void;
 }
 

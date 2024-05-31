@@ -1,6 +1,6 @@
 "use client";
 import { supabaseBrowser } from "@/lib/supabase/browser";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 const GithubBtn = () => {
