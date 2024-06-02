@@ -6,7 +6,7 @@ interface MessagesState {
   setMessagesState: (messages: MessagesWithUsers[]) => void;
   addMessage: (message: MessagesWithUsers) => void;
   updateMessage: (message: MessagesWithUsers) => void;
-  removeMessage: (message: MessagesWithUsers) => void;
+  removeMessage: (message: string) => void;
 }
 
 export const messagesState = create<MessagesState>((set) => ({
@@ -24,8 +24,8 @@ export const messagesState = create<MessagesState>((set) => ({
           : msg
       ),
     })),
-  removeMessage: (message) =>
+  removeMessage: (messageId) =>
     set((state) => ({
-      messages: state.messages.filter((msg) => msg.id !== message.id),
+      messages: state.messages.filter((msg) => msg.id !== messageId),
     })),
 }));

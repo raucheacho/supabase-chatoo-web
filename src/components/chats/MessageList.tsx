@@ -1,79 +1,22 @@
 "use client";
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect } from "react";
 import Message from "@/components/chats/Message";
-import { messagesState } from "@/lib/store/messagesState"; // Assurez-vous que le chemin est correct
+import { messagesState } from "@/lib/store/messagesState";
 import { ArrowDown } from "lucide-react";
 import SkeletonMessageList from "./SkeletonMessageList";
 import { supabaseBrowser } from "@/lib/supabase/browser";
+import { MessagesWithUsers } from "@/lib/types/collections";
+import useScroll from "@/hooks/useScroll";
 
 const MessageList: React.FC = () => {
-  const { messages } = messagesState();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrolledByUser, setScrolledByUser] = useState(false);
-  const [notification, setNotification] = useState(0);
-  const scrollContainer = scrollRef.current;
+  const { messages, addMessage } = messagesState();
+  const { scrollRef, scrolledByUser, notification, scrollDown } =
+    useScroll(messages);
 
-  const handleNewMessage = () => {
-    if (scrollContainer) {
-      const atBottom =
-        scrollContainer.scrollHeight - scrollContainer.scrollTop ===
-        scrollContainer.clientHeight;
-      if (atBottom) {
-        setNotification(0);
-      } else {
-        setNotification((prev) => prev + 1);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (scrolledByUser) {
-      handleNewMessage();
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    if (scrollContainer) {
-      scrollContainer.scrollTop = scrollContainer.scrollHeight;
-    }
-  }, [messages, scrollContainer]);
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    const handleScroll = () => {
-      if (scrollContainer) {
-        const atBottom =
-          scrollContainer.scrollHeight - scrollContainer.scrollTop ===
-          scrollContainer.clientHeight;
-        setScrolledByUser(!atBottom);
-        setNotification(0);
-      }
-    };
-
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (scrollContainer) {
-        scrollContainer.removeEventListener("scroll", handleScroll);
-      }
-    };
-  }, []);
-
-  const scrollDown = () => {
-    setNotification(0);
-    if (scrollRef.current) {
-      scrollRef.current.scrollTo({
-        top: scrollRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  };
-
+  //à la fin de l'optimistique
   const supabase = supabaseBrowser();
   useEffect(() => {
-    const changement = supabase
+    const subscription = supabase
       .channel("globals-messages")
       .on(
         "postgres_changes",
@@ -82,14 +25,23 @@ const MessageList: React.FC = () => {
           schema: "public",
           table: "messages",
         },
-        (payload) => console.log(payload)
+        async (payload) => {
+          const { data } = await supabase
+            .from("messages")
+            .select("*, users(*)")
+            .eq("id", payload.new.id)
+            .single();
+          if (data) {
+            addMessage(data as MessagesWithUsers);
+          }
+        }
       )
       .subscribe();
 
     return () => {
-      changement.unsubscribe();
+      subscription.unsubscribe();
     };
-  }, [messages]);
+  }, [supabase, addMessage]);
 
   return (
     <div className="relative max-h-full flex flex-col">
@@ -117,7 +69,7 @@ const Notification: React.FC<{
   notification: number;
   onClick: () => void;
 }> = ({ notification, onClick }) => (
-  <div className="absolute   bottom-10 w-full">
+  <div className="absolute bottom-10 w-full">
     <div
       className="w-10 h-10 bg-primary rounded-full flex justify-center items-center ml-auto border cursor-pointer hover:scale-110 transition-all relative"
       onClick={onClick}

@@ -46,13 +46,41 @@ export function ModifierMessage() {
       toast.error("Une erreur est survenue pendant la modification");
     }
     if (data) {
-      updateMessage(data as MessagesWithUsers);
+      //updateMessage(data as MessagesWithUsers);
       toast.success("Votre message a bien été modifié");
       setStartUpdate();
       setSelectedMessage(null);
     }
     setIsLoading(false);
   }
+  const supabase = supabaseBrowser();
+  useEffect(() => {
+    const subscription = supabase
+      .channel("update-messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "messages",
+        },
+        async (payload) => {
+          const { data } = await supabase
+            .from("messages")
+            .select("*, users(*)")
+            .eq("id", payload.new.id)
+            .single();
+          if (data) {
+            updateMessage(data as MessagesWithUsers);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase, updateMessage]);
 
   return (
     <AlertDialog open={startUpdate}>

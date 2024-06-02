@@ -30,9 +30,9 @@ export function Send() {
       .select("*, users(*)")
       .single();
     if (error) toast.error(error.message);
-    if (data) {
-      addMessage(data as MessagesWithUsers);
-    }
+    // if (data) {
+    //   addMessage(data as MessagesWithUsers);
+    // }
     form.reset();
   }
 

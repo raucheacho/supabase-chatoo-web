@@ -1,5 +1,4 @@
 import React from "react";
-import { signup } from "../../../actions/signup";
 import { Separator } from "@/components/ui/separator";
 import { supabaseServer } from "@/lib/supabase/server";
 import Formulaire from "@/components/authentication/Formulaire";
@@ -9,7 +8,7 @@ import GithubBtn from "@/components/authentication/GithubBtn";
 
 async function SignUpPage() {
   const supabase = supabaseServer();
-  const { data, error } = await supabase.auth.getUser();
+  const { data } = await supabase.auth.getUser();
 
   if (data.user) {
     redirect("/");

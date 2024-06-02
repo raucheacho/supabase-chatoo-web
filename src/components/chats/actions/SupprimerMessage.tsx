@@ -13,11 +13,9 @@ import { Separator } from "@/components/ui/separator";
 import { useAppState } from "@/lib/store/appState";
 import { messagesState } from "@/lib/store/messagesState";
 import { supabaseBrowser } from "@/lib/supabase/browser";
-import { MessagesWithUsers } from "@/lib/types/collections";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-
 export function SupprimerMessage() {
   const { startDelete, setStartDelete, selectedMessage, setSelectedMessage } =
     useAppState();
@@ -39,12 +37,38 @@ export function SupprimerMessage() {
     }
     if (data) {
       toast.success("Votre message a bien été supprimé");
-      removeMessage(data as MessagesWithUsers);
+      //removeMessage(data.id);
       setStartDelete();
       setSelectedMessage(null);
     }
     setIsLoading(false);
   };
+  const supabase = supabaseBrowser();
+  useEffect(() => {
+    const subscription = supabase
+      .channel("delete-messages")
+      .on(
+        "postgres_changes",
+        {
+          event: "DELETE",
+          schema: "public",
+          table: "messages",
+        },
+        (payload) => {
+          console.log(payload.old.id);
+          if (payload.old.id) {
+            removeMessage(payload.old.id);
+            console.log(selectedMessage);
+          }
+          console.log(selectedMessage);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase, removeMessage, selectedMessage]);
   return (
     <AlertDialog open={startDelete}>
       <AlertDialogContent>
