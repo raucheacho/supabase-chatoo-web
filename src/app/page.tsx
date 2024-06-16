@@ -22,7 +22,6 @@ export default async function Home() {
   return (
     <>
       <InitUser user={data.user} />
-
       <div className="h-full">
         <ResizablePanelGroup
           direction="horizontal"
