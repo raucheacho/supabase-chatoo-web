@@ -22,8 +22,13 @@ const Message = ({ message }: { message: MessagesWithUsers }) => {
             <UserAvatar avatar={message.users.avatar_url as string} />
           </div>
         )}
-        <div className="space-y-2 max-w-sm mb-5 relative">
-          <div className="flex items-center gap-2">
+        <div
+          className={cn(
+            "space-y-2 max-w-sm mb-5 relative flex flex-col",
+            iAmUser ? "items-end" : "items-start"
+          )}
+        >
+          <div className="flex items-center gap-2 ">
             <p className="text-sm font-bold ">{message.users?.display_name}</p>
             <p className="text-xs font-thin">
               {formatDistanceToNow(new Date(message.created_at), {

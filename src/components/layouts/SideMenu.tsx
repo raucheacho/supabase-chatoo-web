@@ -46,7 +46,7 @@ const SideMenu = () => {
   }, [supabase, user]);
 
   return (
-    <div className="h-full pr-5 space-y-5">
+    <div className="h-full pr-5 space-y-5 hidden md:block">
       <div className="w-full border p-2 rounded-md flex flex-col gap-2">
         <div className="w-full border p-2 rounded-md flex gap-2 hover:bg-accent">
           <MessageCircle />
