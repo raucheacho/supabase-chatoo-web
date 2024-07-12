@@ -55,7 +55,7 @@ export function SupprimerMessage() {
           table: "messages",
         },
         (payload) => {
-          console.log(payload.old.id);
+          console.log("old", payload.old.id);
           if (payload.old.id) {
             removeMessage(payload.old.id);
             console.log(selectedMessage);
