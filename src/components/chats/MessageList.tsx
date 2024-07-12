@@ -44,7 +44,7 @@ const MessageList: React.FC = () => {
   }, [supabase, addMessage]);
 
   return (
-    <div className="relative max-h-full flex flex-col">
+    <div className={"relative max-h-full flex flex-col"}>
       <div
         className="h-[550px] overflow-y-auto no-scroll"
         ref={scrollRef}
