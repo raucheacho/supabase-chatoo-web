@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { UsersType } from "../types/collections";
 import { User } from "@supabase/supabase-js";
 
 interface UserState {
