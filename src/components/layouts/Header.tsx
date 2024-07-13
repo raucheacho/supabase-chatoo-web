@@ -9,7 +9,7 @@ const Header = () => {
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-5xl mx-auto container flex h-14 justify-between items-center">
+        <div className="max-w-5xl mx-auto px-5 lg:px-0 flex h-14 justify-between items-center">
           <div className="mr-4 hidden md:flex">
             <Link className="mr-6 flex items-center" href="/">
               <span className="font-black text-primary block">CHA</span>

@@ -33,7 +33,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <main className="container max-w-5xl mx-auto md:py-10">
+          <main className="max-w-5xl mx-auto md:py-10 px-5 lg:px-0">
             {children}
           </main>
           <Toaster position="top-left" />

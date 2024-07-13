@@ -14,7 +14,7 @@ const ChatZone = async () => {
   return (
     <>
       <InitMessages messages={data} />
-      <div className="w-full p-5 pt-0 h-full flex flex-col rounded-lg rounded-tl-none rounded-bl-none">
+      <div className="w-full p-1 md:p-5 pt-0 h-full flex flex-col rounded-lg rounded-tl-none rounded-bl-none">
         <MessageList />
         <Send />
       </div>
